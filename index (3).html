@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coty Deportes | Locales y Productos</title>
+    <!-- Optimización: Pre-conexión para la fuente Montserrat -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+    <style>
+        /* ------------------ ESTILOS BASE Y PALETA OSCURA/ELEGANTE CÁLIDA ------------------ */
+        
+        /* Tonos oscuros y cálidos */
+        .bg-dark-primary { background-color: #2d0014; } /* Burdeos profundo */
+        .bg-dark-section { background-color: #1a080a; } /* Negro cálido */
+        .bg-card-dark { background-color: #200810; } /* Burdeos muy oscuro (Fondo de Tarjetas) */
+        
+        /* Tonos de Acento Burdeos */
+        .color-primary { background-color: #40001B; } 
+        .text-primary { color: #40001B; } 
+        .border-primary { border-color: #40001B; } 
+
+        body {
+            font-family: 'Montserrat', sans-serif; 
+            background-color: #140a0c; 
+            color: #f3f4f6; 
+        }
+        
+        /* ------------------ CABECERA (Degradado Oscuro Cálido) ------------------ */
+        header {
+            background-image: linear-gradient(to right, #2d0014, #140a0c);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4); 
+            transition: all 0.3s ease-in-out;
+        }
+
+        .logo-header-text { color: white; }
+        .logo-header-accent { color: #a18a8d; } 
+        .nav-header-text { color: #d1c8c9; } 
+        .nav-header-text:hover { color: white; }
+
+        .logo-zoom {
+            transition: transform 0.3s ease-in-out; 
+            display: inline-block; 
+        }
+        .logo-zoom:hover {
+            transform: scale(1.1); 
+        }
+
+        /* ------------------ BOTONES UNIFICADOS ------------------ */
+        .btn-unified {
+            border: 1px solid #7d5f62; 
+            color: #f3f4f6; 
+            background-color: transparent;
+            font-weight: 600; 
+            transition: all 0.3s ease-in-out;
+            box-shadow: none;
+            border-radius: 0.5rem;
+            padding: 0.75rem 2rem;
+        }
+        .btn-unified:hover {
+            color: white;
+            background-color: #40001B; 
+            border-color: #40001B;
+            box-shadow: 0 0 15px rgba(64, 0, 27, 0.6); 
+            transform: scale(1.05); 
+        }
+
+        .btn-header-clean {
+            border: 1px solid #7d5f62; 
+            color: #f3f4f6; 
+            background-color: transparent;
+            font-weight: 500;
+            padding: 6px 10px; 
+            border-radius: 6px;
+            transition: all 0.3s ease-in-out;
+            font-size: 14px;
+        }
+        .btn-header-clean:hover {
+            color: white; 
+            background-color: #40001B; 
+            border-color: #40001B;
+            transform: translateY(-1px) scale(1.03); 
+            box-shadow: 0 0 10px rgba(64, 0, 27, 0.5); 
+        }
+
+        /* ------------------ TARJETAS DE CATEGORÍA Y LOCALES ------------------ */
+        .card-minimal {
+            transition: all 0.4s ease-in-out;
+            background-color: #200810; 
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); 
+            color: #d1c8c9; 
+        }
+        .card-minimal:hover {
+            transform: translateY(-10px); 
+            box-shadow: 0 18px 35px rgba(0, 0, 0, 0.7); 
+        }
+        .card-minimal h3 { color: white; } 
+
+        .card-minimal:hover .category-icon {
+            transform: scale(1.1); 
+            color: white; 
+        }
+        .category-icon {
+            transition: all 0.4s ease-in-out;
+        }
+        
+        /* ------------------ ANIMACIONES DE FONDO------------------ */
+        
+        /* Animación de Título */
+        @keyframes colorShift {
+            0% { color: #40001B; } 
+            33% { color: #a18a8d; } 
+            66% { color: #ffafcc; } 
+            100% { color: #40001B; }
+        }
+        .animate-color-shift {
+            animation: colorShift 4s infinite alternate; 
+        }
+
+        /* EFECTO DEGRADADO EN MOVIMIENTO (Aplicado a bg-dark-primary) */
+        .bg-dark-primary { 
+            background: linear-gradient(135deg, #2d0014, #140a0c, #40001B);
+            background-size: 300% 300%;
+            animation: bg-shift 20s ease infinite;
+        }
+        @keyframes bg-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        /* Estilos de Mapa */
+        .map-wrapper {
+            position: relative;
+            width: 100%;
+            height: 350px; 
+        }
+        .map-wrapper iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            border-radius: 0.75rem; 
+        }
+        /* Animación al scroll (fade-in) */
+        .fade-in-section {
+            opacity: 0;
+            transform: translateY(20px); 
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+    <!-- Script para funcionalidad de WhatsApp, Llamada y Carrusel -->
+    <script>
+        // Función para abrir WhatsApp
+        function openWhatsApp(localName) {
+            let phoneNumber = '5491141873545'; // Central
+            let message = 'Hola, me gustaría consultar sobre artículos deportivos.';
+
+            if (localName === 'Sallares') {
+                phoneNumber = '5491122224444'; // Ficticio Sallares
+                message = 'Hola, estoy contactando a cotydeportes - Local Sallares. Me gustaría hacer una consulta.';
+            } else if (localName === 'Estacion') {
+                phoneNumber = '5491111113333'; // Ficticio Estación
+                message = 'Hola, estoy contactando a cotydeportes - Local Estación. Me gustaría hacer una consulta.';
+            }
+
+            const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        // Función para llamar por teléfono
+        function openPhoneCall() {
+            const phoneNumber = '1142557318';
+            window.location.href = `tel:${phoneNumber}`;
+        }
+
+        // --- Lógica de Intersection Observer para Animación al Scroll ---
+        document.addEventListener("DOMContentLoaded", function() {
+            const sections = document.querySelectorAll('.fade-in-section');
+
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1 
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            sections.forEach(section => {
+                observer.observe(section);
+            });
+        });
+
+    </script>
+</head>
+<body>
+
+    <!-- Cabecera y Navegación (Fondo Burdeos Cálido con Degradado) -->
+    <header class="shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+            <!-- Logo -->
+            <a href="#" class="text-3xl font-extrabold tracking-wider lowercase logo-zoom">
+                <span class="font-extrabold logo-header-text">coty</span><span class="font-light logo-header-accent">deportes</span>
+            </a>
+            
+            <!-- Contenedor de Botones de Contacto -->
+            <div class="flex items-center space-x-2 sm:space-x-3">
+                <!-- Botón de Instagram -->
+                <a href="https://www.instagram.com/cotydeportes" target="_blank" class="btn-header-clean flex items-center justify-center">
+                    Instagram
+                </a>
+
+                <button onclick="openPhoneCall()" class="btn-header-clean">
+                    Llamar
+                </button>
+                <button onclick="openWhatsApp('Central')" class="btn-header-clean">
+                    WhatsApp
+                </button>
+            </div>
+
+            <!-- Navegación Principal: Oculta en móviles -->
+            <nav class="hidden md:flex space-x-8 text-sm font-medium">
+                <a href="#inicio" class="nav-header-text transition duration-300">Inicio</a>
+                <a href="#productos" class="nav-header-text transition duration-300">Productos</a>
+                <a href="#locales" class="nav-header-text transition duration-300">Locales</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Sección Principal (Héroe - ESTÁTICO) -->
+    <section id="inicio" class="bg-dark-section py-20 sm:py-32">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl sm:text-6xl font-extrabold text-white mb-4 leading-tight animate-hero-text">
+                Todo el <span class="animate-color-shift">Deporte</span>, <br class="sm:hidden">en un Solo Lugar.
+            </h1>
+            <p class="text-xl text-white mb-12 max-w-3xl mx-auto animate-hero-text font-light" style="animation-delay: 0.2s;">
+                Te equipamos con la mejor calidad en artículos deportivos y stock permanente.
+            </p>
+            
+            <!-- Contenedor de Imagen Estática (Sin carrusel) -->
+            <div class="mt-12 animate-hero-text h-64 sm:h-96 relative w-full mx-auto max-w-4xl rounded-xl overflow-hidden shadow-2xl border border-primary" style="animation-delay: 0.6s;">
+                <img src="https://placehold.co/1200x500/40001B/ffffff?text=COLOCA_TU_IMAGEN_AQUI:/images/promo-principal.jpg" 
+                     alt="Promo principal de Coty Deportes" 
+                     class="w-full h-full object-cover">
+            </div>
+
+            <!-- Botón CTA -->
+            <div class="mt-12 animate-hero-text" style="animation-delay: 0.4s;">
+                <a href="#productos" class="btn-unified py-3 px-10 rounded-lg inline-block text-lg hover:shadow-lg">
+                    Ver Categorías
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Productos/Categorías (Fondo con degradado en movimiento) -->
+    <section id="productos" class="py-24 sm:py-32 bg-dark-primary fade-in-section">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-extrabold text-white mb-3">Nuestras Categorías Principales</h2>
+                <p class="text-lg text-gray-400 font-light">Encontrá lo que necesitás para cada disciplina.</p>
+            </div>
+
+            <!-- Grid de Categorías -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-4 gap-6 sm:gap-8">
+                
+                <!-- Tarjeta 1: Fútbol -->
+                <div class="bg-card-dark p-8 rounded-xl card-minimal text-center">
+                    <div class="text-primary mb-4"><span class="text-5xl category-icon">⚽</span></div>
+                    <h3 class="text-xl font-bold mb-3">Fútbol</h3>
+                    <p class="text-gray-400 text-sm">Camisetas, medias y pelotas oficiales para que nada te falte en la cancha.</p>
+                </div>
+
+                <!-- Tarjeta 2: Vóley -->
+                <div class="bg-card-dark p-8 rounded-xl card-minimal text-center">
+                    <div class="text-primary mb-4"><span class="text-5xl category-icon">🏐</span></div>
+                    <h3 class="text-xl font-bold mb-3">Vóley</h3>
+                    <p class="text-gray-400 text-sm">Pelotas de entrenamiento y competencia, rodilleras de protección y ropa para máximo rendimiento.</p>
+                </div>
+
+                <!-- Tarjeta 3: Handball -->
+                <div class="bg-card-dark p-8 rounded-xl card-minimal text-center">
+                    <div class="text-primary mb-4"><span class="text-5xl category-icon">🤾</span></div>
+                    <h3 class="text-xl font-bold mb-3">Handball</h3>
+                    <p class="text-gray-400 text-sm">Balones con agarre optimizado, zapatillas de interior y protectores esenciales para la alta exigencia del juego.</p>
+                </div>
+                
+                <!-- Tarjeta 4: Danza -->
+                <div class="bg-card-dark p-8 rounded-xl card-minimal text-center">
+                    <div class="text-primary mb-4"><span class="text-5xl category-icon">🩰</span></div>
+                    <h3 class="text-xl font-bold mb-3">Danza</h3>
+                    <p class="text-gray-400 text-sm">Ropa elástica, zapatillas de ballet, y accesorios cómodos para cualquier estilo de danza.</p>
+                </div>
+
+                <!-- Tarjeta 5: Fitness -->
+                <div class="bg-card-dark p-8 rounded-xl card-minimal text-center">
+                    <div class="text-primary mb-4"><span class="text-5xl category-icon">🏋️</span></div>
+                    <h3 class="text-xl font-bold mb-3">Fitness</h3>
+                    <p class="text-gray-400 text-sm">Mancuernas, colchonetas, bandas elásticas y ropa para tus rutinas en el gimnasio.</p>
+                </div>
+                
+                <!-- Tarjeta 6: Hockey -->
+                <div class="bg-card-dark p-8 rounded-xl card-minimal text-center">
+                    <div class="text-primary mb-4"><span class="text-5xl category-icon">🏒</span></div>
+                    <h3 class="text-xl font-bold mb-3">Hockey</h3>
+                    <p class="text-gray-400 text-sm">Sticks, canilleras y protectores bucales de alto impacto.</p>
+                </div>
+
+                <!-- Tarjeta 7: Boxeo -->
+                <div class="bg-card-dark p-8 rounded-xl card-minimal text-center">
+                    <div class="text-primary mb-4"><span class="text-5xl category-icon">🥊</span></div>
+                    <h3 class="text-xl font-bold mb-3">Boxeo</h3>
+                    <p class="text-gray-400 text-sm">Guantes, vendas, protectores y bolsas de entrenamiento para todas las disciplinas de contacto.</p>
+                </div>
+
+                <!-- Tarjeta 8: Artes Marciales -->
+                <div class="bg-card-dark p-8 rounded-xl card-minimal text-center">
+                    <div class="text-primary mb-4"><span class="text-5xl category-icon">🥋</span></div>
+                    <h3 class="text-xl font-bold mb-3">Artes Marciales</h3>
+                    <p class="text-gray-400 text-sm">Uniformes (kimonos), cinturones y protección especializada para entrenamiento y combate.</p>
+                </div>
+
+            </div>
+            
+            <!-- Botón de Catálogo (Único CTA en esta sección) -->
+            <div class="mt-16 text-center flex justify-center">
+                <a href="https://wa.me/c/5491141873545" target="_blank" class="btn-unified py-3 px-8 rounded-lg inline-flex items-center space-x-2 hover:shadow-lg w-full sm:w-auto">
+                    <!-- Ícono de Carrito (Inline SVG) -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16"><path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.485-.379L1.44 5.462A.5.5 0 0 1 2.986 6zM4.35 6l1.248-3.746L6.5 6H4.35zm3.111 0h2.46L8.4 3.746zM11.649 6l-1.248-3.746L11.5 6h-1.25zM12 9H4v2h8zM4 12.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3zm9 0a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z"/></svg>
+                    <span>Ver Catálogo Completo</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección de Locales CON MAPAS (Animación al scroll - Ocupa todo el ancho) -->
+    <section id="locales" class="py-24 sm:py-32 bg-dark-primary fade-in-section w-full">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-extrabold text-white mb-3">Visitá Nuestros Locales</h2>
+                <p class="text-lg text-gray-400 font-light max-w-2xl mx-auto">
+                    Te esperamos en nuestras sucursales. Haz clic en el mapa para navegar.
+                </p>
+            </div>
+
+            <!-- Grid de Mapas: 1 columna en móvil, 2 en md -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                
+                <!-- Local Sallares (Con Mapa Insertado) -->
+                <div class="bg-card-dark p-6 rounded-xl card-minimal shadow-2xl overflow-hidden">
+                    <h3 class="text-3xl font-bold text-white mb-4">Local Sallares</h3>
+                    
+                    <!-- Contenedor del Mapa -->
+                    <div class="map-wrapper rounded-xl overflow-hidden mb-6 shadow-xl">
+                        <iframe
+                            title="Mapa Local Sallares"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4990.659925972261!2d-58.280976585822145!3d-34.80794539591433!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a32960de782113%3A0x96cbebd34366e2d2!2sCoty%20deportes!5e1!3m2!1ses-419!2sar!4v1759114229757!5m2!1ses-419!2sar"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+
+                    <!-- Detalles del Local -->
+                    <div class="text-gray-400 space-y-2">
+                        <p><span class="font-semibold text-white">Dirección:</span> Sallares 107, Florencio Varela.</p>
+                        <p><span class="font-semibold text-white">Horario:</span> Lunes a Sábados (9:30-13:00 / 15:15-20:00 hs).</p>
+                    </div>
+
+                    <!-- Botón de WhatsApp específico para Sallares - SIN ICONO -->
+                    <button onclick="openWhatsApp('Sallares')" class="btn-unified py-2 px-4 rounded-lg inline-flex items-center justify-center space-x-2 mt-4">
+                        <span>WhatsApp</span>
+                    </button>
+                </div>
+
+                <!-- Local Estación (Con Mapa Insertado) -->
+                <div class="bg-card-dark p-6 rounded-xl card-minimal shadow-2xl overflow-hidden">
+                    <h3 class="text-3xl font-bold text-white mb-4">Local Estación</h3>
+                    
+                    <!-- Contenedor del Mapa -->
+                    <div class="map-wrapper rounded-xl overflow-hidden mb-6 shadow-xl">
+                        <iframe
+                            title="Mapa Local Estación"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4990.659925972261!2d-58.280976585822145!3d-34.80794539591433!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95a32964071892f5%3A0x71aa9aadbb0b2c2e!2sCoty%20Deportes!5e1!3m2!1ses-419!2sar!4v1759112422344!5m2!1ses-419!2sar"
+                            allowfullscreen=""
+                            loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+
+                    <!-- Detalles del Local -->
+                    <div class="text-gray-400 space-y-2">
+                        <p><span class="font-semibold text-white">Dirección:</span> Av. Tte. Gral. Juan Domingo Perón 102-200, B1888 Florencio Varela, Provincia de Buenos Aires.</p>
+                        <!-- HORARIO ACTUALIZADO -->
+                        <p><span class="font-semibold text-white">Horario:</span> Lunes a Sábados (9:30-14:00 / 16:00-19:30 hs).</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pie de Página -->
+    <footer class="bg-dark-section py-6">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-gray-400">
+            <p class="mb-2 font-light">&copy; 2025 <span class="text-white font-semibold">cotydeportes</span>. Todos los derechos reservados.</p>
+            <p class="text-sm">
+                <a href="javascript:void(0)" onclick="openWhatsApp('Central')" class="hover:text-white mx-2 transition duration-300">Contacto WhatsApp</a> | 
+                <a href="javascript:void(0)" onclick="openPhoneCall()" class="hover:text-white mx-2 transition duration-300">Llamar Ahora</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>
